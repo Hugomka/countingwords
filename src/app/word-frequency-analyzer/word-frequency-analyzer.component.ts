@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {WordFrequencyAnalyzer} from '../interfaces/WordFrequencyAnalyzer';
-import {WordFrequency} from '../interfaces/WordFrequency';
+import { WordFrequencyAnalyzer } from '../interfaces/WordFrequencyAnalyzer';
+import { WordFrequency } from '../interfaces/WordFrequency';
 
 @Component({
   selector: 'app-word-frequency-analyzer',
@@ -64,18 +64,21 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
   calculateMostFrequentNWords(text: string, n: number): WordFrequency[] {
     // Convert text to lowercase
     text = text.toLowerCase();
-    let WordFrequencyArray: WordFrequency[] = [];
+    // Allow a sequence of one or more characters between "a" and "z" or between "A" and "Z"
+    let regex = /([a-zA-Z ])+/g
+    let exec = regex.exec(text)[0];
     // Split text into words
-    let words = text.split(' ');
-    for (let i = 0; i < words.length; i++) {
-      if (WordFrequencyArray.some(({word}) => word == words[i])) {
+    let words = exec.split(' ');
+    let WordFrequencyArray: WordFrequency[] = [];
+    for (let w of words) {
+      if (WordFrequencyArray.some(({word}) => word == w)) {
         // Increment the frequent value
-        let wordFrequency = WordFrequencyArray.find(({word}) => word == words[i]);
+        let wordFrequency = WordFrequencyArray.find(({word}) => word == w);
         wordFrequency.frequency++;
       }
       else {
         // Add new WordFrequency to the list
-        let wordFrequency: WordFrequency = { word: words[i], frequency: 1 };
+        let wordFrequency: WordFrequency = { word: w, frequency: 1 };
         WordFrequencyArray.push(wordFrequency);
       }
     }

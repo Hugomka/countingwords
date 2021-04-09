@@ -21,7 +21,19 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param text
    */
   calculateHighestFrequency(text: string): number {
-    return 0;
+      // Convert text to lowercase
+      text = text.toLowerCase();
+      // Split text into words
+      let words = text.split(' ');
+      let highestFrequency = 0
+      for (let word of words) {
+        // Count how many same word in text
+        let frequency = text.split(word).length - 1;
+        if (frequency > highestFrequency) {
+          highestFrequency = frequency;
+        }
+      }
+      return highestFrequency;
   }
 
   /**
@@ -31,7 +43,9 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param word
    */
   calculateFrequencyForWord(text: string, word: string): number {
-    return 0;
+    // Convert text to lowercase
+    text = text.toLowerCase();
+    return text.split(word).length - 1;
   }
 
   /**
@@ -45,6 +59,28 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param n
    */
   calculateMostFrequentNWords(text: string, n: number): WordFrequency[] {
-    return [];
+    // Convert text to lowercase
+    text = text.toLowerCase();
+    let WordFrequencyArray: WordFrequency[] = [];
+    // Split text into words
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+      if (WordFrequencyArray.some(({word}) => word == words[i])) {
+        // Increment the frequent value
+        let wordFrequency = WordFrequencyArray.find(({word}) => word == words[i]);
+        wordFrequency.frequency++;
+      }
+      else {
+        // Add new WordFrequency to the list
+        let wordFrequency: WordFrequency = { word: words[i], frequency: 1 };
+        WordFrequencyArray.push(wordFrequency);
+      }
+    }
+    // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order
+    WordFrequencyArray
+      .sort((a, b) => (a.word < b.word ? -1 : 1))
+      .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
+    // Return only the first n of word frequency array
+    return WordFrequencyArray.slice(0, n);
   }
 }

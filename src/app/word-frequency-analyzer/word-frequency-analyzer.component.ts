@@ -8,6 +8,9 @@ import {WordFrequency} from '../interfaces/WordFrequency';
   styleUrls: ['./word-frequency-analyzer.component.scss']
 })
 export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, OnInit {
+  text = '';
+  n = 3;
+  word = '';
 
   constructor() { }
 

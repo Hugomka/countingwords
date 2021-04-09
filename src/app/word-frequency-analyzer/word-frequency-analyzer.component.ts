@@ -64,19 +64,21 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
   calculateMostFrequentNWords(text: string, n: number): WordFrequency[] {
     // Convert text to lowercase
     text = text.toLowerCase();
-    // Allow a sequence of one or more characters between "a" and "z" or between "A" and "Z"
-    let regex = /([a-zA-Z ])+/g
-    let exec = regex.exec(text)[0];
+    // Regex for characters between "a" and "z" and between "A" and "Z"
+    let regex = /([a-zA-Z])+/
     // Split text into words
-    let words = exec.split(' ');
+    let words = text.split(' ');
     let WordFrequencyArray: WordFrequency[] = [];
     for (let w of words) {
+      // Execute the regex to have only a-z and A-Z on every words
+      if (regex.test(w)) {
+        w = regex.exec(w)[0];
+      }
       if (WordFrequencyArray.some(({word}) => word == w)) {
         // Increment the frequent value
         let wordFrequency = WordFrequencyArray.find(({word}) => word == w);
         wordFrequency.frequency++;
-      }
-      else {
+      } else {
         // Add new WordFrequency to the list
         let wordFrequency: WordFrequency = { word: w, frequency: 1 };
         WordFrequencyArray.push(wordFrequency);
@@ -84,7 +86,7 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     }
     // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order
     WordFrequencyArray
-      .sort((a, b) => (a.word < b.word ? -1 : 1))
+      .sort((a, b) => (a.word > b.word ? -1 : 1))
       .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
     // Return only the first n of word frequency array
     return WordFrequencyArray.slice(0, n);

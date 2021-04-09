@@ -1,16 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WordFrequencyAnalyzerComponent } from './word-frequency-analyzer.component';
-import {WordFrequency} from '../interfaces/WordFrequency';
+import { WordFrequency } from '../interfaces/WordFrequency';
+import { FormsModule } from '@angular/forms';
 
 describe('WordFrequencyAnalyzerComponent', () => {
   let component: WordFrequencyAnalyzerComponent;
   let fixture: ComponentFixture<WordFrequencyAnalyzerComponent>;
-  let text = 'The sun shines over the lake'
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WordFrequencyAnalyzerComponent ]
+      declarations: [ WordFrequencyAnalyzerComponent ],
+      imports: [ FormsModule ]
     })
     .compileComponents();
   }));
@@ -18,6 +19,9 @@ describe('WordFrequencyAnalyzerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WordFrequencyAnalyzerComponent);
     component = fixture.componentInstance;
+    component.text = 'The sun shines over the lake.'
+    component.n = 3;
+    component.word = 'the'
     fixture.detectChanges();
   });
 
@@ -26,11 +30,11 @@ describe('WordFrequencyAnalyzerComponent', () => {
   });
 
   it('calculate highest frequency',() => {
-    expect(component.calculateHighestFrequency(text)).toEqual(2);
+    expect(component.calculateHighestFrequency(component.text)).toEqual(2);
   });
 
   it('calculate frequency for word', () => {
-    expect(component.calculateFrequencyForWord(text, 'the')).toEqual(2);
+    expect(component.calculateFrequencyForWord(component.text, component.word)).toEqual(2);
   });
 
   it('calculate most frequent N words', () => {
@@ -38,7 +42,7 @@ describe('WordFrequencyAnalyzerComponent', () => {
       { word: 'the', frequency: 2 },
       { word: 'lake', frequency: 1 },
       { word: 'over', frequency: 1 }];
-    let actual = component.calculateMostFrequentNWords(text, 3)
+    let actual = component.calculateMostFrequentNWords(component.text, component.n)
     expect(actual).toEqual(expected);
   });
 });

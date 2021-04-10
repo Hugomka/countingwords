@@ -1,28 +1,36 @@
-<H3>Word frequency analyzer</H3>
-
-<label>
-  <p>Input for text</p>
-  <textarea [(ngModel)]="text"></textarea>
-</label>
-<label>
-  <p>Highest frequency:</p>
-  {{calculateHighestFrequency(text)}}
-</label>
-<label>
-  <p>Frequency for word:</p>
-  <p>Input for word: <input [(ngModel)]="word" type="text" /></p>
-  {{calculateFrequencyForWord(text, word)}}
-</label>
-<label>
-  <p>Most frequency n words:</p>
-  <p>n: <input [(ngModel)]="n" type="number" value="3"/> </p>
-</label>
-<table>
-  <tr>
-    <th>word</th><th>frequency</th>
-  </tr>
-  <tr *ngFor="let fw of calculateMostFrequentNWords(text, n)">
-    <td>{{fw.word}}</td><td>{{fw.frequency}}</td>
-  </tr>
-</table>
-
+<div class="background-blue">
+  <H2>Word frequency analyzer</H2>
+  <div class="center">
+    <div class="left container">
+      <h4>Input for text</h4>
+      <label>
+        <textarea class="frame" [(ngModel)]="text"></textarea>
+      </label>
+      <h4>Highest frequency:</h4>
+      <label>
+        {{calculateHighestFrequency(text)}}
+      </label>
+      <h4>Frequency for word:</h4>
+      <label>
+        <p>Input for word: <input [(ngModel)]="word" type="text" /></p>
+        {{calculateFrequencyForWord(text, word)}}
+      </label>
+    </div>
+    <div class="right container">
+      <h4>Most frequency n words:</h4>
+      <label>
+        <p>n: <input [(ngModel)]="n" type="number" value="3"/> </p>
+      </label>
+      <div class="table-overflow">
+        <table class="center">
+          <tr>
+            <th>word</th><th>frequency</th>
+          </tr>
+          <tr *ngFor="let fw of calculateMostFrequentNWords(text, n)">
+            <td>{{fw.word}}</td><td>{{fw.frequency}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

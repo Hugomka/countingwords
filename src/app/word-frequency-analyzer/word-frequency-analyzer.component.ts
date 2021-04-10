@@ -24,19 +24,21 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param text
    */
   calculateHighestFrequency(text: string): number {
-      // Convert text to lowercase
-      text = text.toLowerCase();
-      // Split text into words
-      let words = text.split(' ');
-      let highestFrequency = 0
-      for (let word of words) {
-        // Count how many same word in text
-        let frequency = text.split(word).length - 1;
-        if (frequency > highestFrequency) {
-          highestFrequency = frequency;
-        }
+    // Allow letters and spaces only
+    text = this.allowLettersAndSpacesOnly(text);
+    // Convert text to lowercase
+    text = text.toLowerCase();
+    // Split text into words
+    let words = text.split(' ');
+    let highestFrequency = 0
+    for (let word of words) {
+      // Count how many same word in text
+      let frequency = text.split(` ${word} `).length - 1;
+      if (frequency > highestFrequency) {
+        highestFrequency = frequency;
       }
-      return highestFrequency;
+    }
+    return highestFrequency;
   }
 
   /**
@@ -46,9 +48,11 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param word
    */
   calculateFrequencyForWord(text: string, word: string): number {
+    // Allow letters and spaces only
+    text = this.allowLettersAndSpacesOnly(text);
     // Convert text to lowercase
     text = text.toLowerCase();
-    return text.split(word).length - 1;
+    return text.split(` ${word} `).length - 1;
   }
 
   /**

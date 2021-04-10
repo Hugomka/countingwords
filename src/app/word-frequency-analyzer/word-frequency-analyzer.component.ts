@@ -86,7 +86,7 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     }
     // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order
     WordFrequencyArray
-      .sort((a, b) => (a.word < b.word ? -1 : 1))
+      .sort((a, b) => (a.word >= b.word ? -1 : 1))
       .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
     // Return only the first n of word frequency array
     return WordFrequencyArray.slice(0, n);

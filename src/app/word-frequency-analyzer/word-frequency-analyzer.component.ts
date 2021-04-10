@@ -24,19 +24,21 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param text
    */
   calculateHighestFrequency(text: string): number {
-      // Convert text to lowercase
-      text = text.toLowerCase();
-      // Split text into words
-      let words = text.split(' ');
-      let highestFrequency = 0
-      for (let word of words) {
-        // Count how many same word in text
-        let frequency = text.split(word).length - 1;
-        if (frequency > highestFrequency) {
-          highestFrequency = frequency;
-        }
+    // Allow letters and spaces only
+    text = this.allowLettersAndSpacesOnly(text);
+    // Convert text to lowercase
+    text = text.toLowerCase();
+    // Split text into words
+    let words = text.split(' ');
+    let highestFrequency = 0
+    for (let word of words) {
+      // Count how many same word in text
+      let frequency = ` ${text} `.split(` ${word} `).length - 1;
+      if (frequency > highestFrequency) {
+        highestFrequency = frequency;
       }
-      return highestFrequency;
+    }
+    return highestFrequency;
   }
 
   /**
@@ -46,9 +48,11 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param word
    */
   calculateFrequencyForWord(text: string, word: string): number {
+    // Allow letters and spaces only
+    text = this.allowLettersAndSpacesOnly(text);
     // Convert text to lowercase
     text = text.toLowerCase();
-    return text.split(word).length - 1;
+    return ` ${text} `.split(` ${word} `).length - 1;
   }
 
   /**
@@ -65,15 +69,11 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     // Convert text to lowercase
     text = text.toLowerCase();
     // Regex for characters between "a" and "z" and between "A" and "Z"
-    let regex = /([a-zA-Z])+/
+    text = this.allowLettersAndSpacesOnly(text);
     // Split text into words
     let words = text.split(' ');
     let WordFrequencyArray: WordFrequency[] = [];
     for (let w of words) {
-      // Execute the regex to have only a-z and A-Z on every words
-      if (regex.test(w)) {
-        w = regex.exec(w)[0];
-      }
       if (WordFrequencyArray.some(({word}) => word == w)) {
         // Increment the frequent value
         let wordFrequency = WordFrequencyArray.find(({word}) => word == w);
@@ -86,9 +86,27 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     }
     // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order
     WordFrequencyArray
-      .sort((a, b) => (a.word > b.word ? -1 : 1))
+      .sort((a, b) => (a.word < b.word ? -1 : 1))
       .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
     // Return only the first n of word frequency array
     return WordFrequencyArray.slice(0, n);
+  }
+
+  allowLettersAndSpacesOnly(text: string) : string {
+    // Regex for letters only
+    let regex = /([a-zA-Z])/
+    let newText = ''
+    for (let c of text) {
+      if (c === ' ') {
+        // Prevent double or more spaces to each
+        newText = newText.trim();
+        newText += c;
+      } else if (regex.test(c)) {
+        // Add allowed character
+        newText += c
+      }
+    }
+    // Remove spaces at the begin and the end of text and then return
+    return newText.trim();
   }
 }

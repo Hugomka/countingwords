@@ -47,8 +47,8 @@ describe('WordFrequencyAnalyzerComponent', () => {
   });
 
   it('calculate most frequent N words with more tests', () => {
-    let text1 = "My phone number is 06-XXXXXXXX and my e-mail address is aname@mail.com.";
-    let text2 = "A hot dog is a fastfood. It is neither made of dog meat nor an aroused dog."
+    let text1 = "My phone number is 06-XXXXXXXX and my e-mail address is aname@mail.com. ";
+    let text2 = "A hot dog is a fastfood.   It is neither made of dog meat nor an aroused dog.  "
     let expected1: WordFrequency[] = [
       { word: 'is', frequency: 2 },
       { word: 'my', frequency: 2 },

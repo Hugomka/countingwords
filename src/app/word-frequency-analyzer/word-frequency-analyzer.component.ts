@@ -101,14 +101,10 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     let regex = /([a-zA-Z])/
     let newText = ''
     for (let c of text) {
-      if (c === '\n') {
-        // Replace newline by space
-        newText += ' ';
-      }
-      if (c === ' ') {
-        // Prevent double or more spaces to each
+      if (c === ' ' || c === '\n') {
+        // Prevent double or more spaces to each and replace newline by space
         newText = newText.trim();
-        newText += c;
+        newText += ' ';
       } else if (regex.test(c)) {
         // Add allowed character
         newText += c

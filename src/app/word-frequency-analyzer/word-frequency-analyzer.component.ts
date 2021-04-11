@@ -50,7 +50,8 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
   calculateFrequencyForWord(text: string, word: string): number {
     // Allow letters and spaces only
     text = this.allowLettersAndSpacesOnly(text);
-    // Convert text to lowercase
+    // Convert word and text to lowercase
+    word = word.toLowerCase();
     text = text.toLowerCase();
     return ` ${text} `.split(` ${word} `).length - 1;
   }
@@ -68,10 +69,10 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
   calculateMostFrequentNWords(text: string, n: number): WordFrequency[] {
     // Convert text to lowercase
     text = text.toLowerCase();
-    // Regex for characters between "a" and "z" and between "A" and "Z"
+    // Allow characters between "a" and "z" and between "A" and "Z" and space like " "
     text = this.allowLettersAndSpacesOnly(text);
     // Split text into words
-    let words = text.split(' ');
+    let words = text.split('  ');
     let WordFrequencyArray: WordFrequency[] = [];
     for (let w of words) {
       if (WordFrequencyArray.some(({word}) => word == w)) {
@@ -102,9 +103,9 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     let newText = ''
     for (let c of text) {
       if (c === ' ' || c === '\n') {
-        // Prevent double or more spaces to each and replace newline by space
+        // Make every space and newline into 2 space and prevent more than 2 spaces to each
         newText = newText.trim();
-        newText += ' ';
+        newText += '  ';
       } else if (regex.test(c)) {
         // Add allowed character
         newText += c

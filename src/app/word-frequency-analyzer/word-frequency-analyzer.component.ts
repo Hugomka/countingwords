@@ -48,7 +48,8 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param word
    */
   calculateFrequencyForWord(text: string, word: string): number {
-    if (word === '') return 0;
+    // If word is empty, then return zero
+    if (word === '') { return 0; }
     // Allow letters and spaces only
     text = this.allowLettersAndSpacesOnly(text);
     // Convert word and text to lowercase
@@ -68,6 +69,8 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param n
    */
   calculateMostFrequentNWords(text: string, n: number): WordFrequency[] {
+    // If text is empty, then return empty list
+    if (text === '') { return []; }
     // Convert text to lowercase
     text = text.toLowerCase();
     // Allow characters between "a" and "z" and between "A" and "Z" and space like " "

@@ -84,14 +84,18 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
         WordFrequencyArray.push(wordFrequency);
       }
     }
-    // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order
-    WordFrequencyArray
-      .sort((a, b) => (a.word >= b.word ? -1 : 1))
-      .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
+    // Sort by word in ascendant alphabetical order and then sort by frequency from high to low order depending on browser
+    WordFrequencyArray = this.sortAscending(WordFrequencyArray)
     // Return only the first n of word frequency array
     return WordFrequencyArray.slice(0, n);
   }
 
+  /**
+   * Allow text only in letters like a-z and A-Z, and spaces too.
+   * Every spaces will be a single space. The text will be trimmed too.
+   *
+   * @param text
+   */
   allowLettersAndSpacesOnly(text: string) : string {
     // Regex for letters only
     let regex = /([a-zA-Z])/
@@ -108,5 +112,26 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     }
     // Remove spaces at the begin and the end of text and then return
     return newText.trim();
+  }
+
+  /**
+   * Sort by word in ascendant alphabetical order and then sort by frequency from high to low order.
+   * Checking if the browser is Firefox, then it will return in a correct order.
+   * Been tested in Firefox, Edge and Chrome by developer. Other browsers than those three are unknown.
+   *
+   * @param array
+   */
+  sortAscending(array: WordFrequency[]): WordFrequency[] {
+    let userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes("firefox")) {
+      array
+        .sort((a, b) => (a.word > b.word ? -1 : 1))
+        .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
+    } else {
+      array
+        .sort((a, b) => (a.word < b.word ? -1 : 1))
+        .sort((a, b) => (a.frequency > b.frequency ? -1 : 1));
+    }
+    return array;
   }
 }

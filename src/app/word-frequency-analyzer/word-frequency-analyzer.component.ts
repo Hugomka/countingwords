@@ -8,9 +8,9 @@ import { WordFrequency } from '../interfaces/WordFrequency';
   styleUrls: ['./word-frequency-analyzer.component.scss']
 })
 export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, OnInit {
-  text = '';
-  n = 3;
-  word = '';
+  text: any = '';
+  n: number = 3;
+  word: any = '';
 
   constructor() { }
 
@@ -101,7 +101,10 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     let regex = /([a-zA-Z])/
     let newText = ''
     for (let c of text) {
-      if (c === ' ') {
+      if (c === '\n') {
+        // Replace newline by space
+        newText += ' ';
+      } else if (c === ' ') {
         // Prevent double or more spaces to each
         newText = newText.trim();
         newText += c;

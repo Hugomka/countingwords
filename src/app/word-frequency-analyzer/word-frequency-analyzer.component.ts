@@ -29,7 +29,7 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
     // Convert text to lowercase
     text = text.toLowerCase();
     // Split text into words
-    let words = text.split(' ');
+    let words = text.split('  ');
     let highestFrequency = 0
     for (let word of words) {
       // Count how many same word in text
@@ -48,6 +48,7 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
    * @param word
    */
   calculateFrequencyForWord(text: string, word: string): number {
+    if (word === '') return 0;
     // Allow letters and spaces only
     text = this.allowLettersAndSpacesOnly(text);
     // Convert word and text to lowercase

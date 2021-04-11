@@ -104,7 +104,8 @@ export class WordFrequencyAnalyzerComponent implements WordFrequencyAnalyzer, On
       if (c === '\n') {
         // Replace newline by space
         newText += ' ';
-      } else if (c === ' ') {
+      }
+      if (c === ' ') {
         // Prevent double or more spaces to each
         newText = newText.trim();
         newText += c;
